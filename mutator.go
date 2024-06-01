@@ -102,6 +102,9 @@ func New(opts *Options) (*Mutator, error) {
 func (m *Mutator) detectPatterns() {
 	if m.Options.PatternDetection {
 		for _, d := range m.Inputs {
+			if d.Sub == "" {
+				continue
+			}
 			pattern := detectPatterns(*d, m.Options.Payloads)
 			if pattern == "" {
 				continue
