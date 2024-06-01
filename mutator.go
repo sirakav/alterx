@@ -87,12 +87,13 @@ func New(opts *Options) (*Mutator, error) {
 	if err := m.prepareInputs(); err != nil {
 		return nil, err
 	}
-	if opts.Enrich {
-		m.enrichPayloads()
-	}
 
 	if opts.PatternDetection {
 		m.detectPatterns()
+	}
+
+	if opts.Enrich {
+		m.enrichPayloads()
 	}
 
 	return m, nil

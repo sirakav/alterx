@@ -108,6 +108,7 @@ func TestDetectPatterns(t *testing.T) {
 		{Input{TLD: ".org", ETLD: "example.org", Root: "example", Sub: "api", Suffix: "org", MultiLevel: []string{"api", "api"}}, "{{word}}.{{word}}.{{word}}.{{suffix}}"},
 		{Input{TLD: ".com", ETLD: "example.com", Root: "example", Sub: "uk-1234", Suffix: "com", MultiLevel: []string{}}, "{{country}}-{{number}}.{{suffix}}"},
 		{Input{TLD: ".com", ETLD: "example.com", Root: "example", Sub: "dev1234", Suffix: "com", MultiLevel: []string{}}, "{{word}}{{number}}.{{suffix}}"},
+		{Input{TLD: ".com", ETLD: "example.com", Root: "example", Sub: "unknown", Suffix: "com", MultiLevel: []string{"unknown"}}, "{{suffix}}"},
 	}
 
 	for _, test := range tests {
