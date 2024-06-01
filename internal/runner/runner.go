@@ -29,6 +29,7 @@ type Options struct {
 	Limit              int
 	MaxSize            int
 	DedupeResults      bool
+	PatternDetection   bool
 	// internal/unexported fields
 	wordlists goflags.RuntimeMap
 }
@@ -59,7 +60,8 @@ func ParseFlags() *Options {
 		flagSet.BoolVarP(&opts.Enrich, "enrich", "en", false, "enrich wordlist by extracting words from input"),
 		flagSet.StringVar(&opts.PermutationConfig, "ac", "", fmt.Sprintf(`alterx permutation config file (default '$HOME/.config/alterx/permutation_%v.yaml')`, version)),
 		flagSet.IntVar(&opts.Limit, "limit", 0, "limit the number of results to return (default 0)"),
-		flagSet.BoolVar(&opts.DedupeResults, "dedupe", false, "Dedupe results"),
+		flagSet.BoolVar(&opts.DedupeResults, "no-dedupe", true, "Disable deduplication of results"),
+		flagSet.BoolVar(&opts.PatternDetection, "pattern-detection", false, "Enable pattern detection"),
 	)
 
 	flagSet.CreateGroup("update", "Update",

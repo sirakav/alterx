@@ -226,3 +226,21 @@ func BenchmarkEstimateCount(b *testing.B) {
 		})
 	}
 }
+
+func TestNewWithPatternDetection(t *testing.T) {
+	opts := &Options{
+		Domains:          []string{"api-dev.scanme.sh", "api-1.scanme.sh", "prod123.scanme.sh"},
+		PatternDetection: true,
+		Payloads: map[string][]string{
+			"word":    {"api", "dev", "test", "prod"},
+			"number":  {"1", "2", "3", "1234", "123"},
+			"country": {"us", "uk", "ca"},
+		},
+		Patterns: testConfig.Patterns,
+		Enrich:   true,
+	}
+
+	m, err := New(opts)
+	require.Nil(t, err)
+	require.EqualValues(t, 393, m.EstimateCount())
+}

@@ -91,3 +91,7 @@ func NewInput(inputURL string) (*Input, error) {
 	ivar.Suffix = strings.TrimPrefix(URL.Hostname(), ivar.Sub+".")
 	return ivar, nil
 }
+
+func (i *Input) GetFullDomain() string {
+	return fmt.Sprintf("%v.%v", i.Sub, i.Suffix)
+}

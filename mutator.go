@@ -41,6 +41,8 @@ type Options struct {
 	MaxSize int
 
 	DedupeResults bool
+
+	PatternDetection bool
 }
 
 // Mutator
@@ -65,23 +67,20 @@ func New(opts *Options) (*Mutator, error) {
 		}
 		opts.Payloads = DefaultConfig.Payloads
 	}
+
 	if len(opts.Patterns) == 0 {
 		if len(DefaultConfig.Patterns) == 0 {
 			return nil, fmt.Errorf("something went wrong,`DefaultPatters` and input patterns are empty")
 		}
 		opts.Patterns = DefaultConfig.Patterns
 	}
-	// purge duplicates if any
-	for k, v := range opts.Payloads {
-		dedupe := sliceutil.Dedupe(v)
-		if len(v) != len(dedupe) {
-			gologger.Warning().Msgf("%v duplicate payloads found in %v. purging them..", len(v)-len(dedupe), k)
-			opts.Payloads[k] = dedupe
-		}
-	}
+
 	m := &Mutator{
 		Options: opts,
 	}
+
+	m.purgePayloadDuplicates()
+
 	if err := m.validatePatterns(); err != nil {
 		return nil, err
 	}
@@ -91,7 +90,41 @@ func New(opts *Options) (*Mutator, error) {
 	if opts.Enrich {
 		m.enrichPayloads()
 	}
+
+	if opts.PatternDetection {
+		m.detectPatterns()
+	}
+
 	return m, nil
+}
+
+// Detect new patterns
+func (m *Mutator) detectPatterns() {
+	if m.Options.PatternDetection {
+		for _, d := range m.Inputs {
+			pattern := detectPatterns(*d, m.Options.Payloads)
+			if pattern == "" {
+				continue
+			}
+
+			if !sliceutil.Contains(m.Options.Patterns, pattern) {
+				gologger.Info().Msgf("Detected pattern %v for domain %v", pattern, d.GetFullDomain())
+
+				m.Options.Patterns = append(m.Options.Patterns, pattern)
+			}
+		}
+	}
+}
+
+// Purge payload duplicates
+func (m *Mutator) purgePayloadDuplicates() {
+	for k, v := range m.Options.Payloads {
+		dedupe := sliceutil.Dedupe(v)
+		if len(v) != len(dedupe) {
+			gologger.Warning().Msgf("%v duplicate payloads found in %v. purging them..", len(v)-len(dedupe), k)
+			m.Options.Payloads[k] = dedupe
+		}
+	}
 }
 
 // Execute calculates all permutations using input wordlist and patterns

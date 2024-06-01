@@ -4,9 +4,9 @@ import (
 	"io"
 	"os"
 
+	"github.com/projectdiscovery/gologger"
 	"github.com/sirakav/alterx"
 	"github.com/sirakav/alterx/internal/runner"
-	"github.com/projectdiscovery/gologger"
 )
 
 func main() {
@@ -14,13 +14,14 @@ func main() {
 	cliOpts := runner.ParseFlags()
 
 	alterOpts := alterx.Options{
-		Domains:       cliOpts.Domains,
-		Patterns:      cliOpts.Patterns,
-		Payloads:      cliOpts.Payloads,
-		Limit:         cliOpts.Limit,
-		Enrich:        cliOpts.Enrich, // enrich payloads
-		MaxSize:       cliOpts.MaxSize,
-		DedupeResults: cliOpts.DedupeResults,
+		Domains:          cliOpts.Domains,
+		Patterns:         cliOpts.Patterns,
+		Payloads:         cliOpts.Payloads,
+		Limit:            cliOpts.Limit,
+		Enrich:           cliOpts.Enrich, // enrich payloads
+		MaxSize:          cliOpts.MaxSize,
+		DedupeResults:    cliOpts.DedupeResults,
+		PatternDetection: cliOpts.PatternDetection,
 	}
 
 	if cliOpts.PermutationConfig != "" {
