@@ -6,7 +6,7 @@ require (
 	github.com/projectdiscovery/fasttemplate v0.0.2
 	github.com/projectdiscovery/goflags v0.1.54
 	github.com/projectdiscovery/gologger v1.1.12
-	github.com/projectdiscovery/utils v0.1.0
+	github.com/projectdiscovery/utils v0.1.1
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/net v0.23.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -62,7 +62,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/projectdiscovery/blackrock v0.0.1 // indirect
-	github.com/projectdiscovery/hmap v0.0.44 // indirect
+	github.com/projectdiscovery/hmap v0.0.46 // indirect
 	github.com/projectdiscovery/machineid v0.0.0-20240226150047-2e2c51e35983 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
